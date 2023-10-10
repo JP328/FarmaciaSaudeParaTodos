@@ -9,12 +9,12 @@ namespace Farmacia_SaudeParaTodos.Controllers
     public class ProdutoController : ControllerBase
     {
         private readonly IProdutoService _produtoService;
-        private readonly IValidator<Produto> _produtoValidator;
+        private readonly IValidator<Produto> _validator;
 
-        public ProdutoController(IProdutoService produtoService, IValidator<Produto> produtoValidator)
+        public ProdutoController(IProdutoService produto, IValidator<Produto> produtoValidator)
         {
-            _produtoService = produtoService;
-            _produtoValidator = produtoValidator;
+            _produtoService = produto;
+            _validator = produtoValidator;
         }
 
         [HttpGet]
@@ -49,7 +49,7 @@ namespace Farmacia_SaudeParaTodos.Controllers
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] Produto produto)
         {
-            var validarProduto = await _produtoValidator.ValidateAsync(produto);
+            var validarProduto = await _validator.ValidateAsync(produto);
 
             if (!validarProduto.IsValid)
                 return StatusCode(StatusCodes.Status400BadRequest, validarProduto);
@@ -68,7 +68,7 @@ namespace Farmacia_SaudeParaTodos.Controllers
             if (produto.Id == 0)
                 return BadRequest("Id do produto inválido");
 
-            var validarProduto = await _produtoValidator.ValidateAsync(produto);
+            var validarProduto = await _validator.ValidateAsync(produto);
 
             if (!validarProduto.IsValid)
                 return StatusCode(StatusCodes.Status400BadRequest, validarProduto);

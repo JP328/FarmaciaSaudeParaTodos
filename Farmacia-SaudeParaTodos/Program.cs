@@ -1,6 +1,8 @@
 
 using Farmacia_SaudeParaTodos.Data;
 using Farmacia_SaudeParaTodos.Model;
+using Farmacia_SaudeParaTodos.Service;
+using Farmacia_SaudeParaTodos.Service.Implements;
 using Farmacia_SaudeParaTodos.Validator;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -28,9 +30,12 @@ namespace Farmacia_SaudeParaTodos
                 options.UseSqlServer(connectionString)
             );
 
+            builder.Services.AddScoped<IProdutoService, ProdutoService>();
+            builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 
             builder.Services.AddTransient<IValidator<Produto>, ProdutoValidator>();
             builder.Services.AddTransient<IValidator<Categoria>, CategoriaValidator>();
+
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

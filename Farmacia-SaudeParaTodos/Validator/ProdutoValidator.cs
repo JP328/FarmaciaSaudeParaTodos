@@ -13,7 +13,9 @@ namespace Farmacia_SaudeParaTodos.Validator
                .MaximumLength(255);
 
             RuleFor(p => p.DataFabricacao)
-             .NotEmpty();
+                .NotEmpty()
+                .GreaterThanOrEqualTo(u => DateTime.Today.AddYears(-20)).WithMessage("Insira uma data de Fabricação valida!")
+                .LessThanOrEqualTo(u => DateTime.Today).WithMessage("Insira uma data de Fabricação válida!");
 
             RuleFor(p => p.Preco)
                 .GreaterThan(0)
